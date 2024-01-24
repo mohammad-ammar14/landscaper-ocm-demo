@@ -1,0 +1,63 @@
+apiVersion: landscaper.gardener.cloud/v1alpha1
+kind: Installation
+metadata:
+  name: ocm-landscaper-test-9
+  namespace: example
+  annotations:
+    landscaper.gardener.cloud/operation: reconcile
+
+spec:
+  blueprint:
+    inline:
+      filesystem:
+        blueprint.yaml: |
+          apiVersion: landscaper.gardener.cloud/v1alpha1
+          kind: Blueprint
+          jsonSchema: "https://json-schema.org/draft/2019-09/schema"
+          
+          imports:
+            - name: cluster
+              type: target
+              targetType: landscaper.gardener.cloud/kubernetes-cluster
+          deployExecutions:
+            - name: deploy-execution
+              type: GoTemplate
+              template: |-
+                deployItems:
+                  - name: deploy-item
+                    type: landscaper.gardener.cloud/helm
+                    target:
+                      import: cluster
+                    config:
+                      apiVersion: helm.deployer.landscaper.gardener.cloud/v1alpha1
+                      kind: ProviderConfiguration
+                      name: "demo-ocm-landscaper"
+                      namespace: ls-system
+                      chart:
+                        {{ $chartResource := getResource .cd "name" "chart-podinfo" }}
+                        ref: {{ $chartResource.access.imageReference }}
+
+    
+  componentDescriptor:
+    ref:
+      componentName: github.com/landscaper
+      repositoryContext:
+        baseUrl: ghcr.io/mohammad-ammar14
+        type: ociRegistry
+      version: v1.0.0
+      # resourceRef: 
+      #   - type: helmChart
+      #     name: podinfo-chart
+      #     version: v6.3.6
+      #     relation: local
+
+  imports:
+    targets:
+      - name: cluster
+        target: 'my-cluster'
+
+  # importDataMappings:
+  #   release:
+  #     name: hallo
+  #     namespace: example
+  #   testDataIn: test

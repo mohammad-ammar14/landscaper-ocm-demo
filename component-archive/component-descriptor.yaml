@@ -1,0 +1,23 @@
+component:
+  componentReferences: []
+  name: github.com/landscaper
+  provider: ocm.software
+  repositoryContexts: []
+  resources:
+  - access:
+      localReference: sha256.ae678eb7bbf8a40c6a27b20c4afc75709b0af9cbeb1fb0995c42909a6350549f
+      mediaType: application/vnd.oci.image.manifest.v1+tar+gzip
+      referenceName: github.com/landscaper/podinfo:1.0.0
+      type: localBlob
+    digest:
+      hashAlgorithm: SHA-256
+      normalisationAlgorithm: ociArtifactDigest/v1
+      value: 0b3b37fa22ce44b73de6963c6d1fcfb410e77a2b57298d7d5a9d461dfb9a2ad8
+    name: chart-podinfo
+    relation: local
+    type: helmChart
+    version: v1.0.0
+  sources: []
+  version: v1.0.0
+meta:
+  schemaVersion: v2

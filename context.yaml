@@ -1,0 +1,10 @@
+apiVersion: landscaper.gardener.cloud/v1alpha1
+kind: Context
+metadata:
+  name: context
+  namespace: example
+repositoryContext:
+  baseUrl: ghcr.io/mohammad-ammar14
+  type: ociRegistry
+registryPullSecrets:
+  - name: cred
